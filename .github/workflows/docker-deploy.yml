@@ -58,7 +58,7 @@ jobs:
 
       # Trivy scan -> SARIF (on LOCAL image).
       - name: Run Trivy vulnerability scanner (SARIF)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
           format: sarif
@@ -66,14 +66,14 @@ jobs:
           severity: CRITICAL,HIGH,MEDIUM
 
       - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-results.sarif
 
       # Security Gate
       - name: Run Trivy security gate (fail on CRITICAL/HIGH)
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
           exit-code: '1'
@@ -124,7 +124,7 @@ jobs:
 
       # SBOM AFTER push (image exists in GHCR)
       - name: Generate SBOM with Trivy
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.33.1
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ steps.meta.outputs.version }}
           format: spdx-json
