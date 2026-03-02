@@ -12,6 +12,9 @@ COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 # Copy static app files
 COPY src/ /usr/share/nginx/html/
 
+# Upgrade OS packages from the base image to pull security fixes.
+RUN apk --no-cache upgrade
+
 # Set permissions for built-in nginx user
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chmod -R 755 /usr/share/nginx/html

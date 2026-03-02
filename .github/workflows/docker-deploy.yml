@@ -59,7 +59,6 @@ jobs:
       # Trivy scan -> SARIF (on LOCAL image).
       - name: Run Trivy vulnerability scanner (SARIF)
         uses: aquasecurity/trivy-action@0.33.1
-        continue-on-error: true
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
           format: sarif
@@ -83,7 +82,7 @@ jobs:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
           exit-code: '1'
           ignore-unfixed: true
-          severity: HIGH
+          severity: CRITICAL,HIGH
 
   push-image:
     name: Push Docker Image
