@@ -1,3 +1,8 @@
+# devops-tp-docker-hammou-ayoub
+
+![Build and Scan](https://github.com/Ayoub-HM/TP2_Pipeline-DevSecOps-avec-GitHub-Actions/actions/workflows/docker-deploy.yml/badge.svg)
+![CodeQL](https://github.com/Ayoub-HM/TP2_Pipeline-DevSecOps-avec-GitHub-Actions/actions/workflows/codeql-analysis.yml/badge.svg)
+
 ## Pipeline DevSecOps
 
 Ce projet implémente un pipeline CI/CD sécurisé pour Docker avec :
