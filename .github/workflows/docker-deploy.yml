@@ -64,13 +64,25 @@ jobs:
         with:
           scan-type: image
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
-          scanners: vuln
+          scanners: vuln,misconfig,secret
           format: sarif
           output: trivy-results.sarif
           exit-code: '0'
           version: v0.69.3
           limit-severities-for-sarif: true
           severity: CRITICAL,HIGH,MEDIUM
+
+      - name: Run Trivy full JSON report
+        uses: aquasecurity/trivy-action@0.34.1
+        with:
+          scan-type: image
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
+          scanners: vuln,misconfig,secret
+          format: json
+          output: trivy-results.json
+          exit-code: '0'
+          skip-setup-trivy: true
+          severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v4
@@ -86,6 +98,13 @@ jobs:
           name: trivy-results
           path: trivy-results.sarif
 
+      - name: Upload JSON artifact
+        if: always() && hashFiles('trivy-results.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-results-json
+          path: trivy-results.json
+
       - name: Fail when SARIF is missing
         if: always() && hashFiles('trivy-results.sarif') == ''
         run: |
@@ -98,7 +117,7 @@ jobs:
         with:
           scan-type: image
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:scan
-          scanners: vuln
+          scanners: vuln,misconfig,secret
           exit-code: '1'
           ignore-unfixed: true
           skip-setup-trivy: true
