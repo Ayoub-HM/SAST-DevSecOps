@@ -1,6 +1,6 @@
 ignored:
-  - DL3018  # Ignorer warning sur les versions pinnées Alpine
-  - DL3008  # Ignorer warning sur les versions pinnées apt
+  - DL3018  # Ignorer le warning sur les versions pinnees Alpine
+  - DL3008  # Ignorer le warning sur les versions pinnees apt
 
 trustedRegistries:
   - docker.io

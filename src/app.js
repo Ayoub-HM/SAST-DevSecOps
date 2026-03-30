@@ -23,19 +23,19 @@ function generateContainerId() {
 function testContainer() {
     const resultBox = document.getElementById('result');
     const statusElement = document.getElementById('status');
-    
+
     statusElement.textContent = 'Test en cours...';
     statusElement.style.color = '#EA580C';
-    
+
     setTimeout(() => {
-        statusElement.textContent = 'Container opérationnel';
+        statusElement.textContent = 'Container operationnel';
         statusElement.style.color = '#16A34A';
-        
+
         resultBox.innerHTML = `
-            <strong>Test du Container Réussi</strong><br><br>
+            <strong>Test du Container Reussi</strong><br><br>
             docker ps<br>
             CONTAINER ID   IMAGE                                    STATUS<br>
-            ${document.getElementById('container-id').textContent}      ghcr.io/user/devops-tp-docker:latest   Up 5 minutes<br><br>
+            ${document.getElementById('container-id').textContent}      ghcr.io/ayoub-hm/tp2_pipeline-devsecops-avec-github-actions:main   Up 5 minutes<br><br>
             - Serveur Nginx : OK<br>
             - Application Web : OK<br>
             - Port 80 : LISTENING<br>
@@ -48,9 +48,9 @@ function testContainer() {
 document.addEventListener('DOMContentLoaded', function() {
     updateTimestamp();
     setInterval(updateTimestamp, 1000);
-    
+
     const containerId = generateContainerId();
     document.getElementById('container-id').textContent = containerId;
-    
-    document.getElementById('status').textContent = 'Container opérationnel';
+
+    document.getElementById('status').textContent = 'Container operationnel';
 });

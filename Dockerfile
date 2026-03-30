@@ -1,38 +1,39 @@
-# Use a patched base image to reduce OS-level CVEs reported by Trivy.
-FROM nginx:1.29.5-alpine-slim
+# Use a specific nginx base image, not latest.
+FROM nginx:1.25.4-alpine
 
 # Metadata
 LABEL maintainer="TP DevOps"
 LABEL description="Application DevOps securisee"
 LABEL org.opencontainers.image.source="https://github.com/Ayoub-HM/TP2_Pipeline-DevSecOps-avec-GitHub-Actions"
 
-# Copy nginx config
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+# Create a dedicated non-root user.
+RUN addgroup -g 1000 -S appgroup && \
+    adduser -u 1000 -S appuser -G appgroup
 
-# Copy static app files
-COPY src/ /usr/share/nginx/html/
+# Install only what is needed and apply package updates.
+RUN apk add --no-cache ca-certificates wget && \
+    apk upgrade --no-cache
 
-# Upgrade OS packages from the base image to pull security fixes.
-RUN apk --no-cache upgrade
+# Copy nginx configuration and static app files with ownership.
+COPY --chown=appuser:appgroup nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chown=appuser:appgroup src/ /usr/share/nginx/html/
 
-# Set permissions for built-in nginx user
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
-    chmod -R 755 /usr/share/nginx/html
+# Ensure runtime paths are writable by the non-root user.
+RUN chown -R appuser:appgroup /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html && \
+    touch /var/run/nginx.pid && \
+    chown -R appuser:appgroup /var/run/nginx.pid && \
+    chown -R appuser:appgroup /var/cache/nginx
 
-# Ensure nginx can write runtime/cache files
-RUN touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/cache/nginx
+# Run as non-root.
+USER appuser
 
-# Run as non-root
-USER nginx
-
-# Expose the port
+# Expose the port.
 EXPOSE 8080
 
-# Health check
+# Health check.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
 
-# Start command
+# Start command.
 CMD ["nginx", "-g", "daemon off;"]

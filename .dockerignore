@@ -4,3 +4,8 @@ README.md
 .gitignore
 *.md
 .DS_Store
+docker-image.tar
+*.sarif
+*.spdx.json
+node_modules
+.cache

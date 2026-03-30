@@ -1,7 +1,10 @@
-name: CodeQL Manual Scan
+name: CodeQL
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main, test ]
+  pull_request:
+    branches: [ main, test ]
 
 jobs:
   analyze:
