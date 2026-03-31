@@ -182,3 +182,5 @@ Certaines taches doivent etre faites dans GitHub par vous :
 - ajouter `SONAR_TOKEN` dans les secrets GitHub
 - observer et merger les PR Dependabot
 - faire la demonstration du faux secret puis nettoyer l'historique de test si necessaire
+
+
