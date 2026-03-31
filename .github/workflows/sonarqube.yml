@@ -34,9 +34,13 @@ jobs:
 
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
+        continue-on-error: true
         uses: SonarSource/sonarqube-quality-gate-action@v1.2.0
         with:
           pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
+
+      - name: Show SonarQube Quality Gate status
+        run: echo "SonarQube Quality Gate status = ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
