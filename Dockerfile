@@ -1,5 +1,5 @@
 # Use a specific nginx base image, not latest.
-FROM nginx:1.25.4-alpine
+FROM nginx:1.29.7-alpine
 
 # Metadata
 LABEL maintainer="TP DevOps"
