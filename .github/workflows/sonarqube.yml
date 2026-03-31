@@ -32,6 +32,18 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v7.0.0
 
+      - name: Show SonarQube analysis links
+        run: |
+          echo "Report task file:"
+          cat .scannerwork/report-task.txt
+          echo ""
+          echo "Dashboard URL:"
+          grep '^dashboardUrl=' .scannerwork/report-task.txt | cut -d'=' -f2-
+          echo ""
+          echo "Compute Engine task URL:"
+          grep '^ceTaskUrl=' .scannerwork/report-task.txt | cut -d'=' -f2-
+        shell: bash
+
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
         continue-on-error: true
