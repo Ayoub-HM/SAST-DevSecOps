@@ -81,7 +81,7 @@ jobs:
         run: docker save "${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ env.SCAN_IMAGE_TAG }}" --output docker-image.tar
 
       - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: docker-image
           path: docker-image.tar
@@ -126,7 +126,7 @@ jobs:
           category: trivy-image
 
       - name: Upload Trivy artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: trivy-results
           path: trivy-results.sarif
@@ -146,7 +146,7 @@ jobs:
           category: grype-image
 
       - name: Upload Grype artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: grype-results
           path: ${{ steps.grype-scan.outputs.sarif }}
@@ -226,7 +226,7 @@ jobs:
           upload-artifact: false
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sbom
           path: sbom.spdx.json
