@@ -30,7 +30,7 @@ jobs:
         shell: bash
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v7.0.0
+        uses: SonarSource/sonarqube-scan-action@v8.0.0
 
       - name: Show SonarQube analysis links
         run: |
