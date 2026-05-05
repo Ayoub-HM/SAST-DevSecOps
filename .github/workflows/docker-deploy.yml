@@ -108,7 +108,7 @@ jobs:
         run: docker load --input docker-image.tar
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v0.33.1
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: image
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ env.SCAN_IMAGE_TAG }}
@@ -152,7 +152,7 @@ jobs:
           path: ${{ steps.grype-scan.outputs.sarif }}
 
       - name: Run Trivy security gate
-        uses: aquasecurity/trivy-action@v0.33.1
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: image
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOWER }}:${{ env.SCAN_IMAGE_TAG }}
